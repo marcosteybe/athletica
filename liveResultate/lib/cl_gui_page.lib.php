@@ -365,17 +365,14 @@ $this->content .= "<h1>$title </h1>";
 		$this->wind = $wind;
 		$this->points = $points;
 
-		$span = 5;
+		$span = 2;
 		if($points == TRUE) {
 			$span++;
 		}
 		if($relay == TRUE) {
 			$span--;
 		}
-		if($wind == TRUE) {
-			$span++;
-		}
-		
+				
 		if($base_perf == TRUE){
 			$span++;
 			$span++;
@@ -390,13 +387,13 @@ $this->content .= "<h1>$title </h1>";
 		{
 			if(empty($heatwind))
 			{    				
-                $colspan=2+$span;
+                $colspan=5+$span;
                 $this->content .= "<tr>\r\n<th class='dialog' id='rankinglist' colspan='$colspan'>$title</th>\r\n</tr>\r\n";
 			}
 			else
 			{  
                 $this->content .= " <tr>\r\n<th class='dialog' colspan='$span'>$title</th>\r\n
-                                    <th class='dialog' id='rankinglist' colspan='2'>" .$GLOBALS['strWind'] . ": $heatwind</th>\r\n</tr>\r\n";
+                                    <th class='dialog' id='rankinglist' colspan='5'>" .$GLOBALS['strWind'] . ": $heatwind</th>\r\n</tr>\r\n";
 			}
 		}	// ET heat title set
          

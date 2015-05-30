@@ -19,8 +19,7 @@ if (!defined('AA_TIMETABLE_LIB_INCLUDED'))
  *	-------------------
  */
 function AA_timetable_display()
-{   
-    
+{       
  require_once('./lib/cl_http_data.lib.php'); //include class      
  require_once('./lib/common.lib.php'); //include class  
  
@@ -35,12 +34,16 @@ function AA_timetable_display()
     return;
  }    
      
-    $content = $cfgHtmlStart1;      
+    $content = $GLOBALS['cfgHtmlStart1'];       
      
-    $content .= "<meta http-equiv='refresh' content='" . $GLOBALS['cfgMonitorReload'] . ";  url=http://" . $GLOBALS['cfgUrl'] . "/" . $GLOBALS['cfgDir'] ."/index.html'>";  
+    $content .= "<meta http-equiv='refresh' content='" . $GLOBALS['cfgMonitorReload'] . ";  url='http://" . $GLOBALS['cfgUrl'] . "/" . $GLOBALS['cfgDir'] ."/index.html'>";  
             
     
     $content .= $GLOBALS['cfgHtmlStart2'];   
+    
+    $content .= $GLOBALS['cfgHtmlStart3'];   
+    $content_navi .= $GLOBALS['cfgHtmlStart3'];   
+    
     $content .= "<div id='navi'>\r\n";  
     $content_navi = "<div id='navi_pc'>\r\n";    
     
@@ -169,7 +172,8 @@ function AA_timetable_display()
                     $content .= "<div id='navi_right'>\r\n";                      
                     $content .= "<table class='timetable' >\r\n ";  
                 }
-               */
+               */  
+               
                 $event = $row[10];            
 				$combGroup = "";	// combined group if set
 				$combined = false;	// is combined event
@@ -212,7 +216,7 @@ function AA_timetable_display()
 						$class='odd';
 					}
                    
-					
+					$i++; 
 					$k = '';   
                    
                     $content .= "<tr class='". $class."'>\r\n<th class='timetable_sub'>". $row[6] ."</th>\r\n"; 
@@ -225,7 +229,7 @@ function AA_timetable_display()
                         $content_navi .="<tr>\r\n<th class='timetable_test' id='".$row[9].$row[7]."' /></th>\r\n<th class='timetable'>" .$row[3]."</th></tr>";                            
                     } 
                 }
-                $i++;  
+ 
                 
 				$time = $row[6];
 				$hour = $row[7];
@@ -238,7 +242,7 @@ function AA_timetable_display()
                         if ($row[24] == 'y'){
                             $m_statusChanged = 'y';
                         }
-				        if ($row[1] == $cfgRoundStatus['results_done'] || $row[1] == $cfgRoundStatus['results_in_progress'] ) {  	
+				        if ($row[1] == $cfgRoundStatus['results_done'] || $row[1] == $cfgRoundStatus['results_in_progress'] || $row[1] == $cfgRoundStatus['results_live'] ) {  	
                                 if ($row[1] == $cfgRoundStatus['results_done']){
                                       $href_class = "timetable_heat_done";   
                                 }
@@ -250,8 +254,14 @@ function AA_timetable_display()
                                 $arr_link_evt[$l] = $row[10];    
                                 $l++;    
 					        } 
-                        elseif  ($row[1] == $cfgRoundStatus['heats_done'] ) {  
-                                $href_class = "timetable_sub";   
+                        elseif  ($row[1] == $cfgRoundStatus['heats_done'] || $row[1] == $cfgRoundStatus['open']  || $row[1] == $cfgRoundStatus['enrolement_done'] || $row[1] == $cfgRoundStatus['enrolement_pending'] ) { 
+                                if ($row[1] == $cfgRoundStatus['heats_done']){
+                                      $href_class = "timetable_sub";   
+                                }
+                                else {
+                                     $href_class = "timetable_open";   
+                                }             
+                              
                                 $arr_link_start[$s] = $row[0];                          
                                 $arr_cat[$s] = $row[3]; 
                                 $arr_disc[$s] = $row[21];
@@ -514,8 +524,7 @@ function AA_timetable_display()
 
     $content .= "</tr>\r\n</table>\r\n";  
     $content_navi .= "</tr>\r\n</table>\r\n";   
-    
-      
+         
     // create rankinglist for every round from array link 
     foreach ($arr_link as $key => $round){
          $event = $arr_link_evt[$key];
@@ -523,7 +532,7 @@ function AA_timetable_display()
         // Ranking list single event and all attempts  
         AA_rankinglist_Single(0, $event, $round, $formaction, $break, $cover, $biglist, $cover_timing, $date, $show_efforts,$heatSeparate,$catFrom,$catTo,$discFrom, $discTo,$heatFrom,$heatTo,$athleteCat, $content_navi);                                                                                                                                                                                                         
     }
-    
+             
      foreach ($arr_link_start as $key => $round){
         
             // start list   
@@ -556,14 +565,14 @@ function AA_timetable_display()
     
     $content .= "</div></div>\r\n<div id='content'></div>\r\n";
     $content .= $GLOBALS['cfgHtmlEnd'];  
-  
+          
     
     if (!fwrite($fp, $content)) {
         AA_printErrorMsg($GLOBALS['strErrFileWriteFailed']);    
         return;
     }   
     fclose($fp);  
-    
+         
    
     // get ftp data
    $result = mysql_query("
@@ -585,7 +594,7 @@ function AA_timetable_display()
         } 
    
    
-    
+           
      $ftp = new FTP_data();
     // send files per ftp
     $local = dirname($_SERVER['SCRIPT_FILENAME'])."/tmp/index.html";
@@ -600,6 +609,7 @@ function AA_timetable_display()
     // upload result file  
    
     $ftp->open_connection($host, $user, $pwd);
+    
     if ($m_statusChanged == 'y') {
         $success = $ftp->put_file($local, $remote);
         if(!$success){

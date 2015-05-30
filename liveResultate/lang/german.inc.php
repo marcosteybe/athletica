@@ -805,5 +805,11 @@ $strUrl = "Url Adresse";
 $strUrlMsg = "Bitte füllen Sie alle Felder aus.";   
 
 $strAthleticaServer = "Athletica-Datenbankserver";  
+$strTNlist  ="Teilnehmerliste";
+$strTNlist_pda  ="TN";   
+$strHeatsDone_pda = "Serien";
+$strHeatsInWork_pda = "Bearbeitung";
+$strResultsRank = "Resultate erfasst / rangiert";
+$strResultsRank_pda = "Resultate";   
 
 ?>
