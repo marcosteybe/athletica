@@ -158,6 +158,12 @@ $menu->printMenu();
 		document.printdialog.target = '';
 	}
 	
+		function setExportDiplomLSGBrugg()
+	{
+		document.printdialog.formaction.value = 'exportdiplomlsgbrugg';
+		document.printdialog.target = '';
+	}
+	
 	function checkDisc() 
 	{  
 	   e = document.getElementById("combined"); 
@@ -609,6 +615,9 @@ if($tage>1){
 		</button>
 		<button name='print' type='submit' onClick='setExportDiplom()'>
 			<?php echo $strExportDiplom; ?>
+		</button>
+		<button name='print' type='submit' onClick='setExportDiplomLSGBrugg()'>
+			<?php echo "LSG Brugg Diplomdruck"; ?>
 		</button>
 	</td>
 </tr>
