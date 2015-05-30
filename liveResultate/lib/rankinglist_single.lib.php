@@ -16,8 +16,7 @@ require('./lib/cl_gui_page.lib.php');
 require('./lib/common.lib.php');   
 require('./config.inc.php');  
 require('./config.inc.end.php'); 
-
-
+             
 if(AA_connectToDB() == FALSE)	{ // invalid DB connection
 	return;		// abort
 }
@@ -51,10 +50,9 @@ $flagInfoLine2=false;
     $saison = "O";  //if no saison is set take outdoor
  }
  
-if($round > 0) {	// show a specific round  
-   
-		
-         $eventMerged=false;          
+if($round > 0) {	// show a specific round    
+	
+    $eventMerged=false;          
     $sqlEvents = AA_getMergedEventsFromEvent($event);
     if  ($sqlEvents!=''){              
          $selection = "w.xWettkampf IN " . $sqlEvents . " AND "; 
@@ -138,7 +136,8 @@ $results = mysql_query("
 		, r.Speakerstatus
 		, d.Staffellaeufer
 		, CONCAT(DATE_FORMAT(r.Datum,'$cfgDBdateFormat'), ' ', TIME_FORMAT(r.Startzeit, '$cfgDBtimeFormat'))
-		, w.xDisziplin  
+		, w.xDisziplin 
+        , r.Status 
 	FROM
 		athletica.wettkampf AS w
 		LEFT JOIN athletica.kategorie AS k ON (k.xKategorie = w.xKategorie)
@@ -146,7 +145,7 @@ $results = mysql_query("
   		LEFT JOIN athletica.runde AS r ON (r.xWettkampf = w.xWettkampf) 
 	WHERE " . $selection . "
 	w.xMeeting = " . $_COOKIE['meeting_id'] . " 	
-	AND  (r.Status = " . $cfgRoundStatus['results_done'] . " OR r.Status = " . $cfgRoundStatus['results_in_progress'] .  ") 
+	AND  (r.Status = " . $cfgRoundStatus['results_done'] . " OR r.Status = " . $cfgRoundStatus['results_in_progress'] .  " OR r.Status = " . $cfgRoundStatus['results_live'] .  ") 
 	AND r.Datum LIKE '".$date."'
 	ORDER BY
 		k.Anzeige
@@ -176,7 +175,8 @@ $results = mysql_query("
                 ' ', 
                 TIME_FORMAT(r.Startzeit, '%H:%i')) ,
                 w.xDisziplin ,  
-                rs.Hauptrunde     
+                rs.Hauptrunde ,
+                r.Status     
             FROM 
                 athletica.wettkampf AS w 
                 LEFT JOIN athletica.kategorie AS k ON (k.xKategorie = w.xKategorie) 
@@ -186,7 +186,7 @@ $results = mysql_query("
             WHERE 
                 " . $selection . "  
                 w.xMeeting  = " . $_COOKIE['meeting_id'] . " 
-                AND  (r.Status = " . $cfgRoundStatus['results_done'] . " OR r.Status = " . $cfgRoundStatus['results_in_progress'] .  ")  
+                AND  (r.Status = " . $cfgRoundStatus['results_done'] . " OR r.Status = " . $cfgRoundStatus['results_in_progress'] . " OR r.Status = " . $cfgRoundStatus['results_live'] . ")  
                 AND r.Datum LIKE '%' 
             ORDER BY
                 k.Anzeige
@@ -240,7 +240,8 @@ else {
             $list->content .= "<meta http-equiv='refresh' content='" . $GLOBALS['cfgMonitorReload'] . "; url=http://" . $url . "/" . $GLOBALS['cfgDir'] ."/live".$round .".html'>"; 
         } 
         
-        $list->content .= $cfgHtmlStart2;   
+        $list->content .= $cfgHtmlStart2; 
+        $list->content.= $cfgHtmlStart3;       
         $list->content .= $content_navi; 
         $list->content .= "</div ><div id='content_pc'><div id='content_pda'>";
       
@@ -274,6 +275,13 @@ else {
 		
 	while($row = mysql_fetch_row($results))
 	{   
+        if (($catMerged & !$heatSeparate) || ($eventMerged & !$heatSeparate))
+         { 
+            $status = $row[13];
+        }        
+        else  {
+               $status = $row[14]; 
+        }
 		// for a combined event, the rounds are merged, so jump until the next event
 		if($cRounds > 1){
 			$cRounds--;
@@ -419,12 +427,16 @@ else {
 		$svm = AA_checkSVM($row[4]);    
 		
 		// If round evaluated per heat, group results accordingly	
-		$order_heat = "";  
+		$order_heat = "";           
 		if($eval == $cfgEvalType[$strEvalTypeHeat]) {	// eval per heat
 			$order_heat = "heatid, ";
 		}
 	   
 		$valid_result ="";
+        $order_rank = "rank,";  
+        if ($status == $cfgRoundStatus['results_in_progress'] || $status == $cfgRoundStatus['results_live']){  
+              $order_rank = "ss.position,"; 
+        }     
 		// Order performance depending on discipline type
 		if(($row[3] == $cfgDisciplineType[$strDiscTypeJumpNoWind])
 			|| ($row[3] == $cfgDisciplineType[$strDiscTypeThrow]))
@@ -443,8 +455,15 @@ else {
 		else if($row[3] == $cfgDisciplineType[$strDiscTypeHigh])
 		{
 			$order_perf = "DESC";
-			$valid_result =	" AND (r.Info LIKE '%O%'"
-										. " OR r.Leistung < 0)";
+            if ($status == $cfgRoundStatus['results_in_progress'] || $status == $cfgRoundStatus['results_live']){
+                 $valid_result =    " AND (r.Info LIKE '%O%'"
+                                        . " OR r.Leistung < 0 OR r.Leistung is NULL)";                    
+            }
+            else {
+                 $valid_result =    " AND (r.Info LIKE '%O%'"
+                                        . " OR r.Leistung < 0)";
+            }
+			
 		}
 		else
 		{
@@ -528,7 +547,7 @@ else {
 					   ".$sqlSeparate." 
 					   ".$selectionHeats."  
 					ORDER BY ".$order."   					         
-							 rank, 
+							 $order_rank
 							 at.Name, 
 							 at.Vorname,
 							 leistung_neu " 
@@ -568,16 +587,16 @@ else {
 					  ".$limitRankSQL." 
 					  ".$valid_result." 
 					  ".$sqlSeparate."  
-					GROUP BY r.xSerienstart 
+					GROUP BY ss.xSerienstart 
 					ORDER BY ".$order." 
-							 rank, 
+							 $order_rank
 							 r.Leistung 
 							 ".$order_perf.", 
 							 sf.Name;";        				 
 		}    
 		
 		$res = mysql_query($query);
-		if(mysql_errno() > 0) {		// DB error
+		if(mysql_errno() > 0) {		// DB error                 
 			AA_printErrorMsg(mysql_errno() . ": " . mysql_error());
 		}
 		else {
@@ -808,7 +827,7 @@ else {
 					// wind info
 					$wind = '';
 					$secondResult = false;
-					if($r != $max_rank) 	// valid result
+					if($r != $max_rank || $status == $cfgRoundStatus['results_in_progress'] || $status == $cfgRoundStatus['results_live'])	// valid result
 					{
 						if(($row[3] == $cfgDisciplineType[$strDiscTypeJump])
 							&& ($row[8] == 1))
@@ -1036,7 +1055,10 @@ else {
                     else {
                         $remark=$row_res[22];  
                     }
-				   
+				    if ($status == $cfgRoundStatus['results_in_progress'] || $status == $cfgRoundStatus['results_live']){
+                       $rank = ''; 
+                    }
+                    
 					$list->printLine($rank, $name, $year, $row_res[8], $perf, $wind, $points, $qual, $ioc, $sb, $pb,$qual_mode,$athleteCat,$remark);
 				 
 					if($secondResult){
@@ -1145,8 +1167,13 @@ else {
                                 }   
                             }
 							$text_att = substr($text_att, 0, (strlen($text_att)-2));
+							if (empty($text_att)){
+                                $list->printAthletesLine("$strAttempts: ");  
+                            }
+                            else {
+                                  $list->printAthletesLine("$strAttempts: ( $text_att )");  
+                            }
 							
-							$list->printAthletesLine("$strAttempts: ( $text_att )");
 						}
 						
 						}

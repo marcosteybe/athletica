@@ -21,7 +21,7 @@ require_once('./lib/cl_http_data.lib.php'); //include class
       
  $xMeeting = '';
  $host = '';  
- $dir = ''; 
+ $dir = '';    
        
      
  // set DB path to the server  
@@ -75,14 +75,7 @@ require_once('./lib/cl_http_data.lib.php'); //include class
          $user = $_POST['user']; 
  }
 
-   // pwd
- if (!empty($_GET['pwd'])){      
-     $pwd = $_GET['pwd'];
- }
- elseif (!empty($_POST['pwd'])){              
-         $pwd = $_POST['pwd']; 
- }
- 
+  
    // URL
  if (!empty($_GET['url'])){    
      $url = $_GET['url'];
@@ -114,26 +107,7 @@ if(AA_connectToDB_live() == FALSE)    {        // invalid DB connection
         $dbconnect_live = false;
 }
 else {
-        $dbconnect_live = true;  
-        
-        
-       // if (!empty($_POST['host']) && !empty($_POST['user'])  && !empty($_POST['pwd'])) {
-       if (isset($_POST['host']) || isset($_GET['host']) ) { 
-         $sql = "UPDATE  
-                        athletica_liveResultate.config 
-                    SET 
-                        ftpHost = '". $host ."',
-                        ftpUser = '". $user ."',    
-                        ftpPwd = '". $pwd ."',  
-                        url = '". $url . "'";     
-                
-                $result = mysql_query($sql);  
-                if(mysql_errno() > 0) {
-                    AA_printErrorMsg(mysql_errno() . ": " . mysql_error());
-                   
-                }  
-        } 
-        
+        $dbconnect_live = true; 
          
         $result = mysql_query("
             SELECT
@@ -146,11 +120,29 @@ else {
         }
         else {
             $row = mysql_fetch_row($result);
-            $host = $row[1];
-            $user = $row[2];    
-            $pwd = $row[3];    
-            $url = $row[4];               
-            mysql_free_result($result);              
+             // pwd
+             // if user change the password and then click the button next, the password will not be changed (security reason: password is not sent by _GET Data)
+             // if user change the password and then click Enter, the password is saved (_POST Data)   
+            if (isset($_POST['host']) || isset($_GET['host']) ) {
+                if (empty($_POST['pwd'])){              
+                    $pwd = $row[3];  
+                }
+                else {
+                    if  ($_POST['pwd']  != md5($row[3])){
+                         $pwd = $_POST['pwd'];
+                    }
+                    else {
+                        $pwd = $row[3];
+                    }
+                }                 
+            }
+            else {
+                $host = $row[1];
+                $user = $row[2];    
+                $pwd = $row[3];    
+                $url = $row[4];               
+                mysql_free_result($result);  
+            }   
             
             $GLOBALS['cfgUrl'] =  $url; 
             
@@ -161,6 +153,22 @@ else {
                   $error_msg = '';
             }
              
+        }           
+        
+        if (isset($_POST['host']) || isset($_GET['host']) ) { 
+          $sql = "UPDATE  
+                        athletica_liveResultate.config 
+                    SET 
+                        ftpHost = '". $host ."',
+                        ftpUser = '". $user ."',    
+                        ftpPwd = '". $pwd ."',  
+                        url = '". $url . "'";     
+                
+                $result = mysql_query($sql);  
+                if(mysql_errno() > 0) {
+                    AA_printErrorMsg(mysql_errno() . ": " . mysql_error());
+                   
+                }  
         } 
 }
 
@@ -224,9 +232,18 @@ $page->printPageTitle("Live Resultate Upload  (". $timestamp. " Uhr)");
                             
                                 <tr>
                                     <td><?php echo $strPwd; ?></td>
-                               
-                                    <td><input name="pwd" value='<?php echo $pwd; ?>' size="30" type="password" id="pwd" >                                  
-                                     
+                                        <?php
+                                        if (empty($pwd)){
+                                              ?>
+                                                 <td><input name="pwd" value='<?php echo $pwd; ?>' size="30" type="password" id="pwd" >   
+                                            <?php
+                                        }
+                                        else {
+                                              ?>
+                                                 <td><input name="pwd" value='<?php echo md5($pwd); ?>' size="30" type="password" id="pwd" >   
+                                            <?php
+                                        } 
+                                         ?>
                                     </td>
                                 </tr>
                                    <tr><td>&nbsp;</td></tr>  
@@ -301,11 +318,11 @@ $page->printPageTitle("Live Resultate Upload  (". $timestamp. " Uhr)");
                                                  ?>
                                 </td>
                                 </tr>                                  
-                                <tr><td>&nbsp;</td></tr>
+                                <tr><td>&nbsp;</td></tr>                                 
 								<tr class='odd'> 	
                                   <input name='dbhost' type='hidden' value='<?php echo $GLOBALS['cfgDBhost'] ?>' /> 
                                   <input name='dir' type='hidden' value='<?php echo $GLOBALS['cfgDir'] ?>' />                                     								
-									<td class="forms"><input type="button" value="Start" id="start" onclick="document.location.href = 'index.php?xMeeting='+document.getElementById('xMeetingselectbox').value+'&amp;path='+document.getElementById('path').value+'&amp;dir='+document.getElementById('dir').value+'&amp;host='+document.getElementById('host').value+'&amp;user='+document.getElementById('user').value+'&amp;pwd='+document.getElementById('pwd').value+'&amp;url='+document.getElementById('url').value+'&amp;url='+document.getElementById('url').value+'&amp;arg=start'"/></td> 
+									<td class="forms"><input type="button" value="Start" id="start" onclick="document.location.href = 'index.php?xMeeting='+document.getElementById('xMeetingselectbox').value+'&amp;path='+document.getElementById('path').value+'&amp;dir='+document.getElementById('dir').value+'&amp;host='+document.getElementById('host').value+'&amp;user='+document.getElementById('user').value+'&amp;url='+document.getElementById('url').value+'&amp;arg=start'"/></td> 
                                     <td class="forms"><input type="button" value="Stop" id="stop" onclick="timeout_stop()" /></td>
                                    
 								</tr>

@@ -13,17 +13,18 @@
  */
  
  
- $cfgHtmlFooter =  "<table class='info' ><tr><td class='info1'>Serien eingeteilt </td><td class='space'></td><td class='info2'>Resultate in Bearbeitung</td>
-                    <td class='space'></td><td class='info3'>Resultate erfasst / rangiert</td></tr></table>
-                    <br/><img id='footer_img' src='img/livefooter.gif' border='0'>                
+ $cfgHtmlFooter =  "<img id='footer_img' src='img/livefooter.gif' border='0'>                
                     <script type='text/javascript' >                   
                   
                     var UserAgent = navigator.userAgent.toLowerCase();
-                
+                     
                     if (UserAgent.search(/(iphone|ipod|opera mini|fennec|palm|blackberry|android|symbian|series60)/)>-1){
                            document.getElementById('footer_img').src = 'img/livefooter_mobile.gif';
+                    }
+                    else {
+                          document.getElementById('footer_img').src = 'img/livefooter.gif'; 
                     }  
-                   
+                    
                    </script>";
                     
  $cfgHtmlEnd = "<div id='footer'> Powered by <a href='http://www.mediasprint.ch' target='_blank'> mediasprint gmbh</a>
@@ -410,6 +411,7 @@ $cfgRoundStatus = array("open"=>0
 							, "heats_in_progress"=>1
 							, "heats_done"=>2
 							, "results_in_progress"=>3
+                            , "results_live"=>30   
 							, "results_done"=>4
 							, "enrolement_pending"=>5
 							, "enrolement_done"=>6

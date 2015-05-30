@@ -15,7 +15,7 @@ body {
     margin-top: 0px;
     margin-left: 0px;
     margin-right: auto;
-    background-color: #DDDDDD;;   
+    background-color: #DDDDDD; 
     border-right: 1px solid #000000;  
      
 }
@@ -60,7 +60,9 @@ body {
     display: none;
 }
 
-
+#content _pc{
+    display: none;
+}
 
 /* -----------------Inhalt--------------------- */
 #content_pda {    
