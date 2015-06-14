@@ -172,15 +172,15 @@ $cfgCombinedDef = array(	410 => 'MAN'		// Stadion
 				, 402 => '6U16M'    // Sechskampf U16M
 				, 400 => 'WOM'
 				, 401 => 'U18W'     // Siebenkamp U18W
-                , 406 => '5U16M'     // Fünfkampf U16 M   
-                , 425 => '5U16MI'    // Fünfkampf U16 M Indoor  
-                , 407 => 'U23M'     // Fünfkampf U23 M
-                , 424 => 'HU18M'    // Fünfkampf Halle U18 M
-                , 392 => '5MAN'     // Fünfkampf M
-                , 393 => '5MANU20'  // Fünfkampf U20 M
+                , 406 => '5U16M'     // Fï¿½nfkampf U16 M   
+                , 425 => '5U16MI'    // Fï¿½nfkampf U16 M Indoor  
+                , 407 => 'U23M'     // Fï¿½nfkampf U23 M
+                , 424 => 'HU18M'    // Fï¿½nfkampf Halle U18 M
+                , 392 => '5MAN'     // Fï¿½nfkampf M
+                , 393 => '5MANU20'  // Fï¿½nfkampf U20 M
                 , 427 => '8MANU18'  // Achtkampf U18 M
-				, 399 => 'U16W'     // Fünfkampf U16 W
-                , 426 => '5U16WI'    // Fünfkampf U16 W Indoor  
+				, 399 => 'U16W'     // Fï¿½nfkampf U16 W
+                , 426 => '5U16WI'    // Fï¿½nfkampf U16 W Indoor  
 				, 396 => 'HMAN'		// Halle
 				, 397 => 'HMANU20'
 				, 398 => 'HMANU18'
@@ -188,10 +188,10 @@ $cfgCombinedDef = array(	410 => 'MAN'		// Stadion
 				, 3942 => 'H5MAN'	// 5Kampf Halle M
 				, 395 => 'HWOMU18'  // 5Kampf Halle U18 W
                 , 408 => 'UKC'      // UBS Kids Cup
-                , 405 => '5MANU18'  // Fünfkampf U18 M
-                , 416 => '5WOM'     // Fünfkampf W
-                , 417 => '5WOMU20'  // Fünfkampf U20 W
-                , 418 => '5WOMU18'  // Fünfkampf U18 W  
+                , 405 => '5MANU18'  // Fï¿½nfkampf U18 M
+                , 416 => '5WOM'     // Fï¿½nfkampf W
+                , 417 => '5WOMU20'  // Fï¿½nfkampf U20 W
+                , 418 => '5WOMU18'  // Fï¿½nfkampf U18 W  
                 , 799 => '..Ka'     // ...kampf
 				);        
               
@@ -831,5 +831,8 @@ $cfgSLVuser = "athletica";
 $cfgSLVpass = "impBOSS";
 $cfgSrvHashU = "f3e99337796d868e3ae43ff87196fa92";
 $cfgSrvHashP = "93d4ef379a7d3360db0e612e8021e642";
+
+
+$cfgDiplomPrintClass = "EXPORT_RankingListDiplomLSGBrugg"; // default: EXPORT_RankingListDiplom
 
 ?>
