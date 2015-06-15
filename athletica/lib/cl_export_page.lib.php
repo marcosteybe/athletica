@@ -635,8 +635,9 @@ if (!defined('AA_CL_EXPORT_PAGE_LIB_INCLUDED')) {
 
         function printLine($rank, $name, $year, $club, $perf, $wind, $points, $qual, $country)
         {
+            $meetingYear = substr($_SESSION['meeting_infos']['DatumVon'], 0, 4);
             //var_dump($this->current_row);
-            $titel = ($this->current_row[27] == "w" ? "Die schnellste Bruggerin " : "Der schnellste Brugger ") . (date("Y"));
+            $titel = ($this->current_row[27] == "w" ? "Die schnellste Bruggerin " : "Der schnellste Brugger ") . $meetingYear;
             $vorname = $this->current_row[10];
             $nameNeu = $this->current_row[9];
             $yearNeu = $this->current_row[11];
