@@ -260,8 +260,7 @@ if (!defined('AA_RANKINGLIST_SINGLE_LIB_INCLUDED')) {
                 }
             } elseif ($formaction == "exportdiplom") {
 
-                $class = $cfgDiplomPrintClass;
-                $list = new $class($_COOKIE['meeting'], 'csv');
+                $list = new $cfgDiplomPrintClass($_COOKIE['meeting'], 'csv');
 
                 if ($limitRank) {
                     $limitRankSQL = " AND ss.Rang <= " . $_GET['limitRankTo'] . " AND ss.Rang >= " . $_GET['limitRankFrom'] . " ";
@@ -1380,7 +1379,7 @@ if (!defined('AA_RANKINGLIST_SINGLE_LIB_INCLUDED')) {
                                 $points = $pointsUKC;
                             }
 
-                            $list->setCurrentRow($row_res);
+                            call_user_func_array(array($list, 'setCurrentRow'), $row_res);
                             $list->printLine($rank, $name, $year, $row_res[8], $perf, $wind, $points, $qual, $ioc, $sb, $pb, $qual_mode, $athleteCat, $remark, '', $withStartnr, $row_res[25]);
 
                             if ($secondResult) {
