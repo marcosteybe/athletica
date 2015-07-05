@@ -17,14 +17,26 @@ if (AA_connectToDB() == FALSE) {        // invalid DB connection
 $infos = $_SESSION['meeting_infos'];
 $meetingId = $infos['xMeeting'];
 
+echo "<!DOCTYPE html>";
+echo "<html>";
+echo "<head>";
+echo "<meta charset=\"UTF-8\">";
+echo "</head>";
+echo "<body>";
+
+echo "<div id=\"meetingid\">";
+echo "<p>Meeting: <b>" . $infos["Name"] . "</b> id(" . $infos["xMeeting"] . ")</p>";
+echo "</div>";
+
 echo "<div id=\"anmeldungen\">";
+echo "<h1>Statistiken:</h1>";
 echo "<table>";
 echo "<tr>";
 $result = mysql_query("SELECT COUNT(DISTINCT(xAthlet))
 FROM anmeldung as an
 LEFT JOIN athlet AS at USING(xAthlet)
 WHERE an.xMeeting = " . $meetingId);
-echo "<td>Total Anmeldungen:</td><td>" . mysql_result($result, 0)."</td>";
+echo "<td>Total Anmeldungen:</td><td>" . mysql_result($result, 0) . "</td>";
 echo "</tr>";
 
 echo "<tr>";
@@ -39,7 +51,7 @@ LEFT JOIN anmeldung AS an USING(xAnmeldung)
 LEFT JOIN athlet AS at USING(xAthlet)
 WHERE r.Leistung <= 0
  AND w.xMeeting = " . $meetingId);
-echo "<td>Davon nicht angetreten:</td><td>" . mysql_result($result, 0)."</td>";
+echo "<td>Davon nicht angetreten:</td><td>" . mysql_result($result, 0) . "</td>";
 echo "</tr>";
 
 echo "<tr>";
@@ -54,7 +66,7 @@ LEFT JOIN anmeldung AS an USING(xAnmeldung)
 LEFT JOIN athlet AS at USING(xAthlet)
 WHERE r.Leistung > 0
  AND w.xMeeting = " . $meetingId);
-echo "<td>Davon Angetreten: </td><td>" . mysql_result($result, 0)."</td>";
+echo "<td>Davon Angetreten: </td><td>" . mysql_result($result, 0) . "</td>";
 echo "</tr>";
 
 echo "</table>";
@@ -65,4 +77,19 @@ echo "Es kann sein, dass \"Total Anmeldungen\" mehr hat als die Summe von \"ange
 echo "</div>";
 
 
+echo "<h1>Vollständigkeit:</h1>";
+echo "<div id=\"differenz\">";
+$result_diff = mysql_query("SELECT COUNT(*) - (SELECT COUNT(*)
+FROM runde as r
+INNER JOIN wettkampf as w USING(xWettkampf)
+WHERE w.xMeeting = " . $meetingId . ")
+FROM wettkampf
+WHERE xMeeting = " . $meetingId . "
+");
+echo "<p>WTK Definitionen, wie viele Zeiten fehlen noch: " . mysql_result($result_diff, 0) . " (<=0 ist ok)</p>";
+
+echo "</div>";
+
+echo "</body>";
+echo "</html>";
 ?>

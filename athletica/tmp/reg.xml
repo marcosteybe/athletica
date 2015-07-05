@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<meetDataset version="0.3" approval="110095" entry_fee="1000" entry_fee_reduction="800" penalty="0">
+<disciplines>
+	<discipline catCode="U10M" disCode="80" disName="600 m" disInfo="" disSpecial="n" disFee="800" disId="194439" >
+		<athletes>
+		</athletes>
+	</discipline>
+	<discipline catCode="U10M" disCode="140" disName="3000 m" disInfo="" disSpecial="n" disFee="800" disId="194440" >
+		<athletes>
+		</athletes>
+	</discipline>
+	<discipline catCode="U12M" disCode="80" disName="600 m" disInfo="" disSpecial="n" disFee="800" disId="194441" >
+		<athletes>
+			<athlete license="161879" paid_amount="0" paid="n" notificationEffort="2:22.53"/>
+			<athlete license="164848" paid_amount="0" paid="n" notificationEffort="1:50.57"/>
+		</athletes>
+	</discipline>
+	<discipline catCode="U12M" disCode="140" disName="3000 m" disInfo="" disSpecial="n" disFee="800" disId="194442" >
+		<athletes>
+		</athletes>
+	</discipline>
+	<discipline catCode="U14M" disCode="80" disName="600 m" disInfo="" disSpecial="n" disFee="800" disId="194443" >
+		<athletes>
+		</athletes>
+	</discipline>
+	<discipline catCode="U14M" disCode="140" disName="3000 m" disInfo="" disSpecial="n" disFee="800" disId="194444" >
+		<athletes>
+		</athletes>
+	</discipline>
+	<discipline catCode="U16M" disCode="80" disName="600 m" disInfo="" disSpecial="n" disFee="800" disId="194445" >
+		<athletes>
+			<athlete license="144131" paid_amount="0" paid="n" notificationEffort="1:38.22"/>
+		</athletes>
+	</discipline>
+	<discipline catCode="U16M" disCode="140" disName="3000 m" disInfo="" disSpecial="n" disFee="800" disId="194446" >
+		<athletes>
+			<athlete license="165689" paid_amount="0" paid="n" notificationEffort=""/>
+		</athletes>
+	</discipline>
+	<discipline catCode="U18M" disCode="50" disName="200 m" disInfo="" disSpecial="n" disFee="800" disId="194447" >
+		<athletes>
+		</athletes>
+	</discipline>
+	<discipline catCode="U18M" disCode="80" disName="600 m" disInfo="" disSpecial="n" disFee="800" disId="194448" >
+		<athletes>
+		</athletes>
+	</discipline>
+	<discipline catCode="U18M" disCode="140" disName="3000 m" disInfo="" disSpecial="n" disFee="800" disId="194449" >
+		<athletes>
+			<athlete license="158930" paid_amount="0" paid="n" notificationEffort=""/>
+		</athletes>
+	</discipline>
+	<discipline catCode="U20M" disCode="50" disName="200 m" disInfo="" disSpecial="n" disFee="800" disId="194450" >
+		<athletes>
+		</athletes>
+	</discipline>
+	<discipline catCode="U20M" disCode="80" disName="600 m" disInfo="" disSpecial="n" disFee="800" disId="194451" >
+		<athletes>
+		</athletes>
+	</discipline>
+	<discipline catCode="U20M" disCode="140" disName="3000 m" disInfo="" disSpecial="n" disFee="800" disId="194452" >
+		<athletes>
+		</athletes>
+	</discipline>
+	<discipline catCode="MAN_" disCode="50" disName="200 m" disInfo="" disSpecial="n" disFee="1000" disId="194453" >
+		<athletes>
+		</athletes>
+	</discipline>
+	<discipline catCode="MAN_" disCode="80" disName="600 m" disInfo="" disSpecial="n" disFee="1000" disId="194454" >
+		<athletes>
+		</athletes>
+	</discipline>
+	<discipline catCode="MAN_" disCode="140" disName="3000 m" disInfo="" disSpecial="n" disFee="1000" disId="194455" >
+		<athletes>
+			<athlete license="22483" paid_amount="0" paid="n" notificationEffort="9:28.78"/>
+			<athlete license="136389" paid_amount="0" paid="n" notificationEffort="8:51.71"/>
+			<athlete license="159297" paid_amount="0" paid="n" notificationEffort=""/>
+			<athlete license="131623" paid_amount="0" paid="n" notificationEffort=""/>
+		</athletes>
+	</discipline>
+	<discipline catCode="U10W" disCode="80" disName="600 m" disInfo="" disSpecial="n" disFee="800" disId="194456" >
+		<athletes>
+			<athlete license="166196" paid_amount="0" paid="n" notificationEffort=""/>
+		</athletes>
+	</discipline>
+	<discipline catCode="U10W" disCode="140" disName="3000 m" disInfo="" disSpecial="n" disFee="800" disId="194457" >
+		<athletes>
+		</athletes>
+	</discipline>
+	<discipline catCode="U12W" disCode="80" disName="600 m" disInfo="" disSpecial="n" disFee="800" disId="194458" >
+		<athletes>
+		</athletes>
+	</discipline>
+	<discipline catCode="U12W" disCode="140" disName="3000 m" disInfo="" disSpecial="n" disFee="800" disId="194459" >
+		<athletes>
+		</athletes>
+	</discipline>
+	<discipline catCode="U14W" disCode="80" disName="600 m" disInfo="" disSpecial="n" disFee="800" disId="194460" >
+		<athletes>
+			<athlete license="157420" paid_amount="0" paid="n" notificationEffort=""/>
+		</athletes>
+	</discipline>
+	<discipline catCode="U14W" disCode="140" disName="3000 m" disInfo="" disSpecial="n" disFee="800" disId="194461" >
+		<athletes>
+		</athletes>
+	</discipline>
+	<discipline catCode="U16W" disCode="80" disName="600 m" disInfo="" disSpecial="n" disFee="800" disId="194462" >
+		<athletes>
+			<athlete license="143076" paid_amount="0" paid="n" notificationEffort="1:47.39"/>
+			<athlete license="162584" paid_amount="0" paid="n" notificationEffort="1:48.12"/>
+		</athletes>
+	</discipline>
+	<discipline catCode="U16W" disCode="140" disName="3000 m" disInfo="" disSpecial="n" disFee="800" disId="194463" >
+		<athletes>
+		</athletes>
+	</discipline>
+	<discipline catCode="U18W" disCode="50" disName="200 m" disInfo="" disSpecial="n" disFee="800" disId="194464" >
+		<athletes>
+			<athlete license="161622" paid_amount="0" paid="n" notificationEffort="27.37"/>
+			<athlete license="147015" paid_amount="0" paid="n" notificationEffort="26.35"/>
+			<athlete license="164512" paid_amount="0" paid="n" notificationEffort=""/>
+		</athletes>
+	</discipline>
+	<discipline catCode="U18W" disCode="80" disName="600 m" disInfo="" disSpecial="n" disFee="800" disId="194465" >
+		<athletes>
+		</athletes>
+	</discipline>
+	<discipline catCode="U18W" disCode="140" disName="3000 m" disInfo="" disSpecial="n" disFee="800" disId="194466" >
+		<athletes>
+		</athletes>
+	</discipline>
+	<discipline catCode="U20W" disCode="50" disName="200 m" disInfo="" disSpecial="n" disFee="800" disId="194467" >
+		<athletes>
+		</athletes>
+	</discipline>
+	<discipline catCode="U20W" disCode="80" disName="600 m" disInfo="" disSpecial="n" disFee="800" disId="194468" >
+		<athletes>
+		</athletes>
+	</discipline>
+	<discipline catCode="U20W" disCode="140" disName="3000 m" disInfo="" disSpecial="n" disFee="800" disId="194469" >
+		<athletes>
+		</athletes>
+	</discipline>
+	<discipline catCode="WOM_" disCode="50" disName="200 m" disInfo="" disSpecial="n" disFee="1000" disId="194470" >
+		<athletes>
+		</athletes>
+	</discipline>
+	<discipline catCode="WOM_" disCode="80" disName="600 m" disInfo="" disSpecial="n" disFee="1000" disId="194471" >
+		<athletes>
+		</athletes>
+	</discipline>
+	<discipline catCode="WOM_" disCode="140" disName="3000 m" disInfo="" disSpecial="n" disFee="1000" disId="194472" >
+		<athletes>
+			<athlete license="136940" paid_amount="0" paid="n" notificationEffort="10:42.51"/>
+		</athletes>
+	</discipline>
+</disciplines>
+</meetDataset>
